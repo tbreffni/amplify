@@ -23,13 +23,23 @@ var amplify = global.amplify = {
 			subscription,
 			length,
 			i = 0,
-			ret;
+			ret,
+			log;
+
+		log = function ( msg ) {
+			if ( typeof console === "object" ) {
+				console.log(msg);
+			}
+		};
 
 		if ( !subscriptions[ topic ] ) {
+			log("No subscribers found for topic: " + topic);
+			
 			return true;
 		}
 
 		topicSubscriptions = subscriptions[ topic ].slice();
+		log("Found " + topicSubscriptions.length + " subscribers for topic " + topic);
 		for ( length = topicSubscriptions.length; i < length; i++ ) {
 			subscription = topicSubscriptions[ i ];
 			ret = subscription.callback.apply( subscription.context, args );
